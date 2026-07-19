@@ -205,10 +205,38 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--signal);outline-off
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important;}}
 @media print{.nav{display:none;}.section{padding:16px 0;break-inside:avoid;}}
+
+/* ===== celebration overlay ===== */
+.celebrate{position:fixed;inset:0;z-index:900;background:#05070f;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:opacity .6s ease, visibility .6s ease;}
+.celebrate.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.celebrate canvas{position:fixed;inset:0;width:100%;height:100%;display:block;}
+.cel-card{position:relative;z-index:2;text-align:center;padding:0 6vw;max-width:760px;opacity:0;transform:scale(.92);animation:celReveal 1.3s cubic-bezier(.2,.7,.2,1) .45s forwards;}
+.cel-badge{display:inline-block;font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(11px,1.6vw,15px);letter-spacing:.22em;text-transform:uppercase;color:#05070f;background:linear-gradient(100deg,#FFD166,#F6B800);padding:8px 18px;border-radius:22px;box-shadow:0 0 34px rgba(246,184,0,.55);}
+.cel-name{font-family:"Archivo Black",sans-serif;font-weight:800;font-size:clamp(58px,15vw,168px);line-height:.94;color:#fff;letter-spacing:-.02em;margin-top:22px;text-shadow:0 0 18px rgba(255,255,255,.35),0 0 60px rgba(246,184,0,.55),0 0 120px rgba(246,184,0,.32);animation:celGlow 3.4s ease-in-out 1.9s infinite;}
+.cel-sub{font-family:"Archivo",sans-serif;font-weight:600;font-size:clamp(14px,2.2vw,20px);line-height:1.5;color:#D7DCE5;margin:22px auto 0;max-width:560px;}
+.cel-sub b{color:#fff;font-weight:800;}
+.cel-close{margin-top:30px;font-family:"Archivo Black",sans-serif;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#05070f;background:#fff;border:0;border-radius:9px;padding:15px 26px;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease;box-shadow:0 10px 30px rgba(0,0,0,.35);pointer-events:auto;}
+.cel-close:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(246,184,0,.4);}
+.cel-close:focus-visible{outline:3px solid #F6B800;outline-offset:3px;}
+@keyframes celReveal{to{opacity:1;transform:scale(1);}}
+@keyframes celGlow{0%,100%{text-shadow:0 0 18px rgba(255,255,255,.35),0 0 60px rgba(246,184,0,.5),0 0 120px rgba(246,184,0,.3);}50%{text-shadow:0 0 26px rgba(255,255,255,.55),0 0 84px rgba(246,184,0,.8),0 0 150px rgba(246,184,0,.5);}}
+@media (prefers-reduced-motion:reduce){.cel-card{animation:none;opacity:1;transform:none;}.cel-name{animation:none;}}
+
 *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 </style>
 </head>
 <body>
+
+<!-- ===== PLAYER OF THE TOURNAMENT CELEBRATION ===== -->
+<div class="celebrate" id="celebrate" role="dialog" aria-label="Player of the Tournament celebration">
+  <canvas id="fw"></canvas>
+  <div class="cel-card">
+    <div class="cel-badge">Player of the Tournament</div>
+    <h1 class="cel-name">James</h1>
+    <p class="cel-sub">Came back and closed the weekend with an <b>8&ndash;5 win</b>. The tournament&rsquo;s best.</p>
+    <button class="cel-close" id="celClose" type="button">Enter the recap</button>
+  </div>
+</div>
 
 <nav class="nav"><div class="wrap">
   <a class="brand" href="#top"><span class="flag"></span><b>Grand Prix</b></a>
@@ -356,7 +384,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--signal);outline-off
 
       <div class="brkcard">
         <div class="poolhd"><span class="pn">Championship</span><span class="ps">FINAL &middot; SUN 12:30</span></div>
-        <div class="brkbody"><svg viewBox="0 0 480 236" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Championship bracket final results"><style>.sd{font-family:"Archivo",sans-serif;font-weight:700;font-size:12px;fill:#16181D}.sd.win{fill:#16181D;font-weight:800}.sd.lose{fill:#A9B0BA}.sc{font-family:"Roboto Mono",monospace;font-weight:700;font-size:11px;fill:#5C6470}.gl1{font-family:"Roboto Mono",monospace;font-weight:700;font-size:10px;fill:#fff;letter-spacing:.03em}.gl2{font-family:"Archivo",sans-serif;font-weight:800;font-size:9px;fill:rgba(255,255,255,.72);letter-spacing:.1em}.out{font-family:"Archivo Black",sans-serif;font-size:12.5px;letter-spacing:-.01em}.rh{font-family:"Archivo",sans-serif;font-weight:800;font-size:9.5px;letter-spacing:.16em;fill:#8B939E}</style><text class="rh" x="8" y="13">CHAMPIONSHIP &middot; GP 23</text><rect x="8" y="22" width="150" height="30" rx="7" fill="#F4F8EE" stroke="#B9D89A" stroke-width="1.2"/><text class="sd win" x="17" y="41">&#9654; Fluid 2033 AA</text><text class="sd lose" x="148" y="41" text-anchor="end" font-size="9">1</text><rect x="8" y="66" width="150" height="30" rx="7" fill="#fff" stroke="#E2E5EA" stroke-width="1.2"/><text class="sd lose" x="17" y="85">Mad Dog IL 2033</text><text class="sd lose" x="148" y="85" text-anchor="end" font-size="9">2</text><path d="M 160,37 L 184,37 L 184,81 L 160,81" fill="none" stroke="#C7CDD6" stroke-width="1.8"/><path d="M 184,59 L 202,59" fill="none" stroke="#C7CDD6" stroke-width="1.8"/><rect x="202" y="38" width="120" height="42" rx="8" fill="#E10600"/><text class="gl1" x="262" y="56" text-anchor="middle">CHAMPION</text><text class="gl2" x="262" y="70" text-anchor="middle">FLUID</text><text class="out" x="330" y="63" fill="#16181D">&#127942; Fluid</text><text class="rh" x="8" y="135">3RD PLACE &middot; GP 24</text><rect x="8" y="144" width="150" height="30" rx="7" fill="#F4F8EE" stroke="#B9D89A" stroke-width="1.2"/><text class="sd win" x="17" y="163">&#9654; Indiana All Stars</text><text class="sd lose" x="148" y="163" text-anchor="end" font-size="9">3</text><rect x="8" y="188" width="150" height="30" rx="7" fill="#fff" stroke="#E2E5EA" stroke-width="1.2"/><text class="sd lose" x="17" y="207">Westside 2033 Blue</text><text class="sd lose" x="148" y="207" text-anchor="end" font-size="9">4</text><path d="M 160,159 L 184,159 L 184,203 L 160,203" fill="none" stroke="#C7CDD6" stroke-width="1.8"/><path d="M 184,181 L 202,181" fill="none" stroke="#C7CDD6" stroke-width="1.8"/><rect x="202" y="160" width="120" height="42" rx="8" fill="#C99A00"/><text class="gl1" x="262" y="178" text-anchor="middle">3RD PLACE</text><text class="gl2" x="262" y="192" text-anchor="middle">INDIANA</text><text class="out" x="330" y="185" fill="#41474F">Indiana</text></svg></div>
+        <div class="brkbody"><svg viewBox="0 0 480 236" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Championship bracket final results"><style>.sd{font-family:"Archivo",sans-serif;font-weight:700;font-size:12px;fill:#16181D}.sd.win{fill:#16181D;font-weight:800}.sd.lose{fill:#A9B0BA}.sc{font-family:"Roboto Mono",monospace;font-weight:700;font-size:11px;fill:#5C6470}.gl1{font-family:"Roboto Mono",monospace;font-weight:700;font-size:10px;fill:#fff;letter-spacing:.03em}.gl2{font-family:"Archivo",sans-serif;font-weight:800;font-size:9px;fill:rgba(255,255,255,.72);letter-spacing:.1em}.out{font-family:"Archivo Black",sans-serif;font-size:12.5px;letter-spacing:-.01em}.rh{font-family:"Archivo",sans-serif;font-weight:800;font-size:9.5px;letter-spacing:.16em;fill:#8B939E}.scwin{font-family:"Roboto Mono",monospace;font-weight:700;font-size:13px;fill:#16181D}.sclose{font-family:"Roboto Mono",monospace;font-weight:700;font-size:13px;fill:#A9B0BA}</style><text class="rh" x="8" y="13">CHAMPIONSHIP &middot; GP 23</text><rect x="8" y="22" width="150" height="30" rx="7" fill="#F4F8EE" stroke="#B9D89A" stroke-width="1.2"/><text class="sd win" x="17" y="41">&#9654; Fluid 2033 AA</text><text class="scwin" x="148" y="41" text-anchor="end">13</text><rect x="8" y="66" width="150" height="30" rx="7" fill="#fff" stroke="#E2E5EA" stroke-width="1.2"/><text class="sd lose" x="17" y="85">Mad Dog IL 2033</text><text class="sclose" x="148" y="85" text-anchor="end">1</text><path d="M 160,37 L 184,37 L 184,81 L 160,81" fill="none" stroke="#C7CDD6" stroke-width="1.8"/><path d="M 184,59 L 202,59" fill="none" stroke="#C7CDD6" stroke-width="1.8"/><rect x="202" y="38" width="120" height="42" rx="8" fill="#E10600"/><text class="gl1" x="262" y="56" text-anchor="middle">CHAMPION</text><text class="gl2" x="262" y="70" text-anchor="middle">FLUID</text><text class="out" x="330" y="63" fill="#16181D">&#127942; Fluid</text><text class="rh" x="8" y="135">3RD PLACE &middot; GP 24</text><rect x="8" y="144" width="150" height="30" rx="7" fill="#F4F8EE" stroke="#B9D89A" stroke-width="1.2"/><text class="sd win" x="17" y="163">&#9654; Indiana All Stars</text><text class="scwin" x="148" y="163" text-anchor="end">6</text><rect x="8" y="188" width="150" height="30" rx="7" fill="#fff" stroke="#E2E5EA" stroke-width="1.2"/><text class="sd lose" x="17" y="207">Westside 2033 Blue</text><text class="sclose" x="148" y="207" text-anchor="end">4</text><path d="M 160,159 L 184,159 L 184,203 L 160,203" fill="none" stroke="#C7CDD6" stroke-width="1.8"/><path d="M 184,181 L 202,181" fill="none" stroke="#C7CDD6" stroke-width="1.8"/><rect x="202" y="160" width="120" height="42" rx="8" fill="#C99A00"/><text class="gl1" x="262" y="178" text-anchor="middle">3RD PLACE</text><text class="gl2" x="262" y="192" text-anchor="middle">INDIANA</text><text class="out" x="330" y="185" fill="#41474F">Indiana</text></svg></div>
         <div class="brkfoot">
           <p class="bn">Fluid took the title over Mad Dog; Indiana beat Westside for 3rd. True finished <b>5th</b> &mdash; pool play only, no playoff.</p>
           <div class="brklinks">
@@ -403,5 +431,99 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--signal);outline-off
   <div class="fm">True IN 2033 Green (White + Green combined)</div>
 </div></footer>
 
+<script>
+(function(){
+  const overlay = document.getElementById('celebrate');
+  const canvas = document.getElementById('fw');
+  if(!canvas || !overlay) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, DPR, running = true;
+
+  function resize(){
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = canvas.width  = Math.floor(innerWidth  * DPR);
+    H = canvas.height = Math.floor(innerHeight * DPR);
+    canvas.style.width = innerWidth + 'px';
+    canvas.style.height = innerHeight + 'px';
+  }
+  resize();
+  addEventListener('resize', resize);
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const COLORS = ['#F6B800','#FF4D4D','#4DA6FF','#54E08A','#C77DFF','#FFFFFF','#FF8FCE','#FFD166'];
+  const G = 0.045 * DPR;
+  const rand = (a,b) => a + Math.random()*(b-a);
+  const pick = arr => arr[(Math.random()*arr.length)|0];
+  const rockets = [], sparks = [];
+
+  function launch(){
+    const x = rand(W*0.12, W*0.88);
+    const targetY = rand(H*0.16, H*0.5);
+    const startY = H + 8*DPR;
+    const vy = -Math.sqrt(2*G*(startY-targetY)) * rand(0.98,1.04);
+    rockets.push({ x, y:startY, vx:rand(-0.3,0.3)*DPR, vy, color:pick(COLORS), targetY });
+  }
+  function explode(x,y,color){
+    const count = (reduce ? 46 : rand(74,132)) | 0;
+    const speed = rand(2.6,5.2) * DPR;
+    const mixed = Math.random() < 0.35;
+    for(let i=0;i<count;i++){
+      const ang = (Math.PI*2)*(i/count) + rand(-0.08,0.08);
+      const sp = speed * rand(0.35,1);
+      sparks.push({ x, y, vx:Math.cos(ang)*sp, vy:Math.sin(ang)*sp, life:1, decay:rand(0.008,0.018), color: mixed ? pick(COLORS) : color, size: rand(1.4,2.8)*DPR });
+    }
+    for(let i=0;i<12;i++){
+      const ang = rand(0, Math.PI*2), sp = rand(0.5,2)*DPR;
+      sparks.push({ x, y, vx:Math.cos(ang)*sp, vy:Math.sin(ang)*sp, life:1, decay:rand(0.02,0.04), color:'#fff', size:rand(1.6,3)*DPR });
+    }
+  }
+
+  let last = performance.now(), nextLaunch = 0;
+  function frame(now){
+    if(!running) return;
+    const dt = Math.min((now-last)/16.67, 2.5); last = now;
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = 'rgba(5,7,15,0.20)';
+    ctx.fillRect(0,0,W,H);
+    ctx.globalCompositeOperation = 'lighter';
+    for(let i=rockets.length-1;i>=0;i--){
+      const r = rockets[i];
+      r.vy += G*dt*0.6; r.x += r.vx*dt; r.y += r.vy*dt;
+      ctx.fillStyle = r.color;
+      ctx.beginPath(); ctx.arc(r.x, r.y, 2.2*DPR, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,255,.6)';
+      ctx.beginPath(); ctx.arc(r.x, r.y+3*DPR, 1.1*DPR, 0, Math.PI*2); ctx.fill();
+      if(r.vy >= 0 || r.y <= r.targetY){ explode(r.x, r.y, r.color); rockets.splice(i,1); }
+    }
+    for(let i=sparks.length-1;i>=0;i--){
+      const sp = sparks[i];
+      sp.vx *= 0.985; sp.vy *= 0.985; sp.vy += G*dt*0.5;
+      sp.x += sp.vx*dt; sp.y += sp.vy*dt; sp.life -= sp.decay*dt;
+      if(sp.life <= 0){ sparks.splice(i,1); continue; }
+      ctx.globalAlpha = Math.max(sp.life, 0);
+      ctx.fillStyle = sp.color;
+      ctx.beginPath(); ctx.arc(sp.x, sp.y, sp.size, 0, Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    nextLaunch -= dt*16.67;
+    if(nextLaunch <= 0){
+      launch();
+      if(Math.random() < 0.4) launch();
+      nextLaunch = reduce ? rand(900,1500) : rand(500,1000);
+    }
+    requestAnimationFrame(frame);
+  }
+  launch(); launch();
+  requestAnimationFrame(frame);
+
+  function dismiss(){
+    overlay.classList.add('hide');
+    setTimeout(function(){ running = false; }, 650);
+  }
+  document.getElementById('celClose').addEventListener('click', dismiss);
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) dismiss(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') dismiss(); });
+})();
+</script>
 </body>
 </html>
